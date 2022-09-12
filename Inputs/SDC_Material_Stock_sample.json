@@ -1,0 +1,27 @@
+{
+	"connection_key": "response",
+	"result": true,
+	"redis_key": "abcdefg",
+	"filepath": "/var/lib/aion/Data/rededge_sdc/abcdef.json",
+	"MaterialStock": {
+		"Material": "FG29",
+		"Plant": "1710",
+		"StorageLocation": "171A",
+		"Batch": "0000000109",
+        "Supplier": "",
+        "Customer": "",
+        "WBSElementInternalID": "",
+        "SDDocument": "",
+        "SDDocumentItem": "0",
+        "InventorySpecialStockType": "",
+        "InventoryStockType": "01",
+        "MaterialBaseUnit": "",
+        "MatlWrhsStkQtyInMatlBaseUnit": "",
+        "to_MaterialStock": ""
+	},
+	"api_schema": "SAPMaterialStockReads",
+	"accepter": ["All"],
+	"material_code": "FG29",
+	"deleted": false
+}
+
