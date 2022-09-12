@@ -1,5 +1,4 @@
 # sap-api-integrations-material-stock-reads
-sap-api-integrations-material-stock-reads は、他のすべての sap-api-integrations-material-stock-reads 作成更新の際の 参照元となる マスタレポジトリです。  
 sap-api-integrations-material-stock-reads は、外部システム(特にエッジコンピューティング環境)をSAPと統合することを目的に、SAP API で 品目在庫データを取得するマイクロサービスです。    
 sap-api-integrations-material-stock-reads には、サンプルのAPI Json フォーマットが含まれています。   
 sap-api-integrations-material-stock-reads は、オンプレミス版である（＝クラウド版ではない）SAPS4HANA API の利用を前提としています。クラウド版APIを利用する場合は、ご注意ください。   
@@ -35,14 +34,6 @@ sap-api-integrations-material-stock-reads において、API への値入力条�
 * inoutSDC.MaterialStock.Material（品目）
 * inoutSDC.MaterialStock.Plant（プラント）
 * inoutSDC.MaterialStock.StorageLocation（保管場所）
-* inoutSDC.MaterialStock.Batch（ロット）
-* inoutSDC.MaterialStock.Supplier（仕入先）
-* inoutSDC.MaterialStock.Customer（得意先）
-* inoutSDC.MaterialStock.WBSElementInternalID（WBS要素）
-* inoutSDC.MaterialStock.SDDocument（販売伝票）
-* inoutSDC.MaterialStock.SDDocumentItem（販売伝票明細）
-* inoutSDC.MaterialStock.InventorySpecialStockType（特殊在庫タイプ）
-* inoutSDC.MaterialStock.InventoryStockType（在庫タイプ）
 
 ## SAP API Bussiness Hub の API の選択的コール
 
@@ -57,7 +48,7 @@ accepter において 下記の例のように、データの種別（＝APIの�
 ```
 	"api_schema": "SAPMaterialStockReads",
 	"accepter": ["MaterialStock"],
-	"material_code": "FG29",
+	"material_code": "21",
 	"deleted": false
 ```
   
@@ -68,7 +59,7 @@ accepter において 下記の例のように、データの種別（＝APIの�
 ```
 	"api_schema": "SAPMaterialStockReads",
 	"accepter": ["All"],
-	"material_code": "FG29",
+	"material_code": "21",
 	"deleted": false
 ```
 
@@ -78,14 +69,14 @@ accepter における データ種別 の指定に基づいて SAP_API_Caller �
 caller.go の func() 毎 の 以下の箇所が、指定された API をコールするソースコードです。  
 
 ```
-func (c *SAPAPICaller) AsyncGetMaterialStock(material, plant, storageLocation, batch, supplier, customer, wBSElementInternalID, sDDocument, sDDocumentItem, inventorySpecialStockType, inventoryStockType string, accepter []string) {
+func (c *SAPAPICaller) AsyncGetMaterialStock(material, plant, storageLocation string, accepter []string) {
 	wg := &sync.WaitGroup{}
 	wg.Add(len(accepter))
 	for _, fn := range accepter {
 		switch fn {
 		case "MaterialStock":
 			func() {
-				c.MaterialStock(material, plant, storageLocation, batch, supplier, customer, wBSElementInternalID, sDDocument, sDDocumentItem, inventorySpecialStockType, inventoryStockType)
+				c.MaterialStock(material, plant, storageLocation)
 				wg.Done()
 			}()
 		default:
@@ -102,5 +93,28 @@ func (c *SAPAPICaller) AsyncGetMaterialStock(material, plant, storageLocation, b
 以下の項目のうち、"Material" ～ "MatlWrhsStkQtyInMatlBaseUnit" は、/SAP_API_Output_Formatter/type.go 内 の Type MaterialStock {} による出力結果です。"cursor" ～ "time"は、golang-logging-library-for-sap による 定型フォーマットの出力結果です。  
 
 ```
-XXXXXXXXXX
+{
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-material-stock-reads/SAP_API_Caller/caller.go#L82",
+	"function": "sap-api-integrations-material-stock-reads/SAP_API_Caller.(*SAPAPICaller).MaterialStock",
+	"level": "INFO",
+	"message": [
+		{
+			"Material": "21",
+			"Plant": "0001",
+			"StorageLocation": "0001",
+			"Batch": "",
+			"Supplier": "",
+			"Customer": "",
+			"WBSElementInternalID": "000000000000000000000000",
+			"SDDocument": "",
+			"SDDocumentItem": "0",
+			"InventorySpecialStockType": "",
+			"InventoryStockType": "01",
+			"MaterialBaseUnit": "PC",
+			"MatlWrhsStkQtyInMatlBaseUnit": "10"
+		}
+	],
+	"time": "2022-09-13T00:15:50+09:00"
+}
+
 ```

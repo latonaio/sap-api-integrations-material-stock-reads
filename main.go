@@ -31,17 +31,9 @@ func main() {
 	}
 
 	caller.AsyncGetMaterialStock(
-		inoutSDC.MaterialStock.Material,
-		inoutSDC.MaterialStock.Plant,
-		inoutSDC.MaterialStock.StorageLocation,
-		inoutSDC.MaterialStock.Batch,
-		inoutSDC.MaterialStock.Supplier,
-		inoutSDC.MaterialStock.Customer,
-		inoutSDC.MaterialStock.WBSElementInternalID,
-		inoutSDC.MaterialStock.SDDocument,
-		inoutSDC.MaterialStock.SDDocumentItem,
-		inoutSDC.MaterialStock.InventorySpecialStockType,
-		inoutSDC.MaterialStock.InventoryStockType,
+		inputSDC.MaterialStock.Material,
+		inputSDC.MaterialStock.Plant,
+		inputSDC.MaterialStock.StorageLocation,
 		accepter,
 	)
 }

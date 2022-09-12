@@ -28,14 +28,14 @@ func NewSAPAPICaller(baseUrl, sapClientNumber string, requestClient *sap_api_req
 	}
 }
 
-func (c *SAPAPICaller) AsyncGetMaterialStock(material, plant, storageLocation, batch, supplier, customer, wBSElementInternalID, sDDocument, sDDocumentItem, inventorySpecialStockType, inventoryStockType string, accepter []string) {
+func (c *SAPAPICaller) AsyncGetMaterialStock(material, plant, storageLocation string, accepter []string) {
 	wg := &sync.WaitGroup{}
 	wg.Add(len(accepter))
 	for _, fn := range accepter {
 		switch fn {
 		case "MaterialStock":
 			func() {
-				c.MaterialStock(material, plant, storageLocation, batch, supplier, customer, wBSElementInternalID, sDDocument, sDDocumentItem, inventorySpecialStockType, inventoryStockType)
+				c.MaterialStock(material, plant, storageLocation)
 				wg.Done()
 			}()
 		default:
@@ -46,8 +46,8 @@ func (c *SAPAPICaller) AsyncGetMaterialStock(material, plant, storageLocation, b
 	wg.Wait()
 }
 
-func (c *SAPAPICaller) MaterialStock(material, plant, storageLocation, batch, supplier, customer, wBSElementInternalID, sDDocument, sDDocumentItem, inventorySpecialStockType, inventoryStockType string) {
-	materialStockData, err := c.callMaterialStockSrvAPIRequirementMaterialStock("A_MaterialStock", material, plant, storageLocation, batch, supplier, customer, wBSElementInternalID, sDDocument, sDDocumentItem, inventorySpecialStockType, inventoryStockType)
+func (c *SAPAPICaller) MaterialStock(material, plant, storageLocation string) {
+	materialStockData, err := c.callMaterialStockSrvAPIRequirementMaterialStock("A_MatlStkInAcctMod", material, plant, storageLocation)
 	if err != nil {
 		c.log.Error(err)
 		return
@@ -55,9 +55,9 @@ func (c *SAPAPICaller) MaterialStock(material, plant, storageLocation, batch, su
 	c.log.Info(materialStockData)
 }
 
-func (c *SAPAPICaller) callMaterialStockSrvAPIRequirementMaterialStock(api, material, plant, storageLocation, batch, supplier, customer, wBSElementInternalID, sDDocument, sDDocumentItem, inventorySpecialStockType, inventoryStockType string) ([]sap_api_output_formatter.MaterialStock, error) {
-	url := strings.Join([]string{c.baseURL, "API_MATERIALSTOCK_SRV", api}, "/")
-	param := c.getQueryWithMaterialStock(map[string]string{}, material, plant, storageLocation, batch, supplier, customer, wBSElementInternalID, sDDocument, sDDocumentItem, inventorySpecialStockType, inventoryStockType)
+func (c *SAPAPICaller) callMaterialStockSrvAPIRequirementMaterialStock(api, material, plant, storageLocation string) ([]sap_api_output_formatter.MaterialStock, error) {
+	url := strings.Join([]string{c.baseURL, "API_MATERIAL_STOCK_SRV", api}, "/")
+	param := c.getQueryWithMaterialStock(map[string]string{}, material, plant, storageLocation)
 
 	resp, err := c.requestClient.Request("GET", url, param, "")
 	if err != nil {
@@ -73,10 +73,10 @@ func (c *SAPAPICaller) callMaterialStockSrvAPIRequirementMaterialStock(api, mate
 	return data, nil
 }
 
-func (c *SAPAPICaller) getQueryWithMaterialStock(params map[string]string, material, plant, storageLocation, batch, supplier, customer, wBSElementInternalID, sDDocument, sDDocumentItem, inventorySpecialStockType, inventoryStockType string) map[string]string {
+func (c *SAPAPICaller) getQueryWithMaterialStock(params map[string]string, material, plant, storageLocation string) map[string]string {
 	if len(params) == 0 {
 		params = make(map[string]string, 1)
 	}
-	params["$filter"] = fmt.Sprintf("Material eq '%s' and Plant eq '%s' and StorageLocation eq '%s' and Batch eq '%s' and Supplier eq '%s' and Customer eq '%s' and WBSElementInternalID eq '%s' and SDDocument eq '%s' and SDDocumentItem eq '%s' and InventorySpecialStockType eq '%s' and InventoryStockType eq '%s'", material, plant, storageLocation, batch, supplier, customer, wBSElementInternalID, sDDocument, sDDocumentItem, inventorySpecialStockType, inventoryStockType)
+	params["$filter"] = fmt.Sprintf("Material eq '%s' and Plant eq '%s' and StorageLocation eq '%s'", material, plant, storageLocation)
 	return params
 }

@@ -14,7 +14,7 @@
                 "SAP_API_BASE_URL": "http://XXX.XX.XX.XXX:8080/sap/opu/odata/sap/",
                 "SAP_USER":"XXXXXXXXXXXXXX",
                 "SAP_PASS":"XXXXXXXXXXXXXX",
-                "SAP_TOKEN_REFRESH_URL":"http://XXX.XX.XX.XXX:8080/sap/opu/odata/sap/API_MATERIALSTOCK_SRV/",
+                "SAP_TOKEN_REFRESH_URL":"http://XXX.XX.XX.XXX:8080/sap/opu/odata/sap/API_MATERIAL_STOCK_SRV/",
                 "SAP_RETRY_MAX_COUNT":"1",
                 "SAP_RETRY_INTERVAL":"500",
             }

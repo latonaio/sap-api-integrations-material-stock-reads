@@ -1,0 +1,23 @@
+{
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-material-stock-reads/SAP_API_Caller/caller.go#L82",
+	"function": "sap-api-integrations-material-stock-reads/SAP_API_Caller.(*SAPAPICaller).MaterialStock",
+	"level": "INFO",
+	"message": [
+		{
+			"Material": "21",
+			"Plant": "0001",
+			"StorageLocation": "0001",
+			"Batch": "",
+			"Supplier": "",
+			"Customer": "",
+			"WBSElementInternalID": "000000000000000000000000",
+			"SDDocument": "",
+			"SDDocumentItem": "0",
+			"InventorySpecialStockType": "",
+			"InventoryStockType": "01",
+			"MaterialBaseUnit": "PC",
+			"MatlWrhsStkQtyInMatlBaseUnit": "10"
+		}
+	],
+	"time": "2022-09-13T00:15:50+09:00"
+}

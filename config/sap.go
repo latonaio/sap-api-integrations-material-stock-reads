@@ -14,7 +14,7 @@ func newSAP() *SAP {
 		baseURL:         getEnv("SAP_API_BASE_URL", "http://XXX.XX.XX.XXX:8080/sap/opu/odata/sap/"),
 		user:            getEnv("SAP_USER", "XXXXXXXXXXXXXX"),
 		pass:            getEnv("SAP_PASS", "XXXXXXXXXXXXXX"),
-		tokenRefreshURL: getEnv("SAP_TOKEN_REFRESH_URL", "http://XXX.XX.XX.XXX:8080/sap/opu/odata/sap/API_MATERIALSTOCK_SRV/"),
+		tokenRefreshURL: getEnv("SAP_TOKEN_REFRESH_URL", "http://XXX.XX.XX.XXX:8080/sap/opu/odata/sap/API_MATERIAL_STOCK_SRV/"),
 		retryMaxCnt:     getEnvInt("SAP_RETRY_MAX_COUNT", 2),
 		retryInterval:   getEnvInt("SAP_RETRY_INTERVAL", 1000),
 	}
